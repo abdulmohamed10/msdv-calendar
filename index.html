@@ -1,0 +1,220 @@
+<title>Fishing Trip</title>
+<style>
+  /* ---- Page framing (works on any host theme) ---- */
+  :root{
+    --page-bg:#e9e3d7;
+    --page-bg-2:#f4efe6;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --page-bg:#0e1526;
+      --page-bg-2:#141d33;
+    }
+  }
+  :root[data-theme="dark"]{
+    --page-bg:#0e1526;
+    --page-bg-2:#141d33;
+  }
+
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; }
+  body{
+    min-height:100vh;
+    background:
+      radial-gradient(120% 120% at 50% 0%, var(--page-bg-2), var(--page-bg));
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:clamp(16px,4vw,48px);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+  }
+
+  /* ---- The flyer card ---- */
+  .flyer{
+    position:relative;
+    width:min(93vw,560px);
+    aspect-ratio:1080/1350;
+    border-radius:22px;
+    overflow:hidden;
+    container-type:inline-size;
+    box-shadow:0 26px 70px -24px rgba(9,16,32,.7), 0 4px 14px rgba(9,16,32,.25);
+
+    /* Flyer-local palette — constant regardless of host theme */
+    --ink:#152238;        /* deep navy, text on lit sky */
+    --ink-soft:#33415c;
+    --cream:#f6f1e7;       /* text on the water */
+    --cream-soft:#d9dbe0;
+    --accent:#eab24c;      /* dusk gold */
+  }
+
+  /* Sky + sea painted in layers */
+  .sky{
+    position:absolute; inset:0;
+    background:
+      /* soft sun glow, upper area */
+      radial-gradient(90% 60% at 62% 20%, rgba(255,236,196,.85), rgba(255,236,196,0) 60%),
+      /* sky-to-sea vertical wash */
+      linear-gradient(180deg,
+        #f6e2bd 0%,
+        #f0d3a6 26%,
+        #d8bd94 40%,
+        #cbb493 48%,
+        #97917f 57%,      /* haze at the horizon */
+        #46536e 63%,
+        #2c3a56 74%,
+        #1a2740 88%,
+        #131f36 100%);
+  }
+  /* horizon shimmer bands over the water */
+  .sea-sheen{
+    position:absolute; left:0; right:0; top:62%; bottom:0;
+    background:
+      repeating-linear-gradient(180deg,
+        rgba(255,255,255,.06) 0 2px,
+        rgba(255,255,255,0) 2px 9px);
+    opacity:.6;
+    mix-blend-mode:screen;
+    pointer-events:none;
+  }
+  .horizon-art{
+    position:absolute; inset:0; width:100%; height:100%;
+    pointer-events:none;
+  }
+  /* subtle vignette to seat the type */
+  .vignette{
+    position:absolute; inset:0; pointer-events:none;
+    background:
+      linear-gradient(180deg, rgba(20,15,5,.05) 0%, rgba(0,0,0,0) 18%),
+      linear-gradient(0deg, rgba(9,14,26,.45) 0%, rgba(9,14,26,0) 30%);
+  }
+
+  /* ---- Content ---- */
+  .content{
+    position:absolute; inset:0;
+    display:flex; flex-direction:column;
+    padding:8.5cqw 8cqw 7.5cqw;
+  }
+
+  .eyebrow{
+    font-size:2.7cqw;
+    letter-spacing:.42em;
+    text-transform:uppercase;
+    font-weight:700;
+    color:var(--ink-soft);
+    margin:0 0 3.2cqw;
+    padding-left:.2em;
+  }
+
+  .hero{
+    font-family:Georgia,"Times New Roman",serif;
+    font-style:italic;
+    font-weight:400;
+    color:var(--ink);
+    line-height:.92;
+    letter-spacing:-.01em;
+    margin:0;
+    font-size:15.4cqw;
+    text-wrap:balance;
+  }
+  .hero .amp{ color:var(--accent); font-style:italic; }
+
+  .lede{
+    color:var(--ink-soft);
+    font-size:3.35cqw;
+    line-height:1.5;
+    font-weight:500;
+    margin:5cqw 0 0;
+    max-width:70%;
+  }
+
+  .spacer{ flex:1 1 auto; }
+
+  .footer{
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+    gap:4cqw;
+  }
+  .details{ color:var(--cream); }
+  .date{
+    font-size:5cqw;
+    font-weight:700;
+    letter-spacing:-.005em;
+    margin:0 0 2.4cqw;
+    line-height:1.05;
+  }
+  .meta-row{
+    display:flex; align-items:center; gap:2cqw;
+    font-size:3.1cqw;
+    color:var(--cream-soft);
+    line-height:1.35;
+    margin-top:1.2cqw;
+  }
+  .meta-row .dot{
+    width:1.4cqw; height:1.4cqw; border-radius:50%;
+    background:var(--accent); flex:none;
+  }
+  .meta-row.strong{ color:var(--cream); font-weight:600; }
+
+  .brand{
+    text-align:right;
+    color:var(--cream);
+    font-size:4.4cqw;
+    font-weight:800;
+    letter-spacing:.01em;
+    white-space:nowrap;
+    line-height:1;
+  }
+  .brand .slash{ font-weight:400; color:var(--cream-soft); }
+</style>
+
+<div class="flyer" role="img"
+     aria-label="MSDV Family fishing trip flyer. Saturday, September 12. Registration required.">
+  <div class="sky"></div>
+
+  <svg class="horizon-art" viewBox="0 0 1080 1350" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <!-- birds -->
+    <g stroke="#5b5747" stroke-width="3.2" fill="none" opacity="0.5" stroke-linecap="round">
+      <path d="M232 470 q11 -9 22 0 q11 -9 22 0"/>
+      <path d="M300 500 q8 -7 16 0 q8 -7 16 0"/>
+      <path d="M180 520 q9 -7 18 0 q9 -7 18 0"/>
+      <path d="M360 456 q7 -6 14 0 q7 -6 14 0"/>
+      <path d="M820 486 q10 -8 20 0 q10 -8 20 0"/>
+      <path d="M886 512 q7 -6 14 0 q7 -6 14 0"/>
+    </g>
+    <!-- fishing boat silhouette on the horizon -->
+    <g fill="#2c3346" opacity="0.82" transform="translate(812,832) scale(0.92)">
+      <!-- hull -->
+      <path d="M-92 22 Q-70 46 40 46 L96 46 Q112 34 118 20 Z"/>
+      <!-- cabin -->
+      <rect x="42" y="-14" width="60" height="36" rx="4"/>
+      <!-- mast + rigging -->
+      <rect x="-6" y="-96" width="6" height="120"/>
+      <path d="M-3 -92 L-86 22 M-3 -92 L92 6" stroke="#2c3346" stroke-width="2.4" fill="none" opacity="0.7"/>
+      <!-- outrigger booms -->
+      <path d="M-3 -40 L-118 30 M-3 -40 L120 28" stroke="#2c3346" stroke-width="3" fill="none"/>
+    </g>
+  </svg>
+
+  <div class="sea-sheen"></div>
+  <div class="vignette"></div>
+
+  <div class="content">
+    <p class="eyebrow">MSDV &nbsp;·&nbsp; Family</p>
+    <h1 class="hero">faith, fun<br>&amp; <span class="amp">fishing</span></h1>
+    <p class="lede">An all-inclusive day on the water — a chartered 6-hour ride with rods,
+      reels, bait &amp; tackle, snacks and refreshments. Come build new memories with your
+      brothers and sisters.</p>
+
+    <div class="spacer"></div>
+
+    <div class="footer">
+      <div class="details">
+        <p class="date">Saturday<br>September 12</p>
+        <div class="meta-row strong"><span class="dot"></span>Registration required</div>
+        <div class="meta-row"><span class="dot"></span>Cost breakdown &amp; itinerary to follow</div>
+      </div>
+      <div class="brand">MSDV <span class="slash">/</span> Family</div>
+    </div>
+  </div>
+</div>
