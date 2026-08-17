@@ -1,0 +1,133 @@
+<!--
+  ROOTS-style flyer template.
+  Tokens ({{...}}) are filled by scripts/build_flyer.py.
+  <!--FONTS--> is replaced with @font-face rules that inline the Playfair TTFs
+  as data URIs, and {{PHOTO}} becomes a data: URI for the background photograph,
+  so the finished HTML is fully self-contained (renders offline, embeds cleanly).
+
+  Optional tokens may be empty strings — an empty {{EYEBROW}} / {{PRESENTER}} /
+  {{CALLOUT}} simply collapses and leaves the space open, which is on-brand.
+-->
+<meta charset="utf-8">
+<title>{{TITLE}}</title>
+<style>
+  <!--FONTS-->
+
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; }
+  body{
+    background:#0e1526;
+    display:flex; align-items:center; justify-content:center;
+    min-height:100vh;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+  }
+
+  .flyer{
+    position:relative;
+    width:1080px; height:1350px;      /* Instagram portrait 4:5 */
+    overflow:hidden;
+    container-type:size;
+    /* palette — all text colors live here so they are easy to retune */
+    --ink:#f4f1ea;                    /* primary text on the photo (warm white) */
+    --ink-soft:rgba(244,241,234,.82); /* secondary text */
+    --accent:{{ACCENT}};             /* one warm accent, pulled from the photo */
+    --pill:rgba(20,26,38,.42);        /* translucent chip fill */
+    --line:rgba(244,241,234,.28);
+  }
+
+  .photo{
+    position:absolute; inset:0;
+    background-image:url("{{PHOTO}}");
+    background-size:cover;
+    background-position:{{PHOTO_POS}};
+  }
+  /* ROOTS look = ONE dark scrim across the whole image, text in warm white on top.
+     Heavier on the side the text lives (left/top), fading toward the open space. */
+  .scrim{
+    position:absolute; inset:0; pointer-events:none;
+    background:
+      linear-gradient(105deg, rgba(11,17,29,.80) 0%, rgba(11,17,29,.55) 34%, rgba(11,17,29,.12) 60%, rgba(11,17,29,0) 78%),
+      linear-gradient(0deg,  rgba(11,17,29,.85) 0%, rgba(11,17,29,.30) 22%, rgba(11,17,29,0) 42%),
+      linear-gradient(180deg, rgba(11,17,29,.55) 0%, rgba(11,17,29,0) 20%);
+  }
+
+  .content{
+    position:absolute; inset:0; z-index:2;
+    display:flex; flex-direction:column;
+    padding:74px 70px 66px;
+  }
+
+  /* eyebrow — small, uppercase, wide tracking */
+  .eyebrow{
+    font-size:20px; letter-spacing:.34em; text-transform:uppercase;
+    font-weight:600; color:var(--ink-soft); margin:0 0 14px;
+  }
+
+  /* hero — the signature high-contrast serif, {{HERO_STYLE}} = normal|italic */
+  .hero{
+    font-family:"Playfair Display",Georgia,serif;
+    font-style:{{HERO_STYLE}}; font-weight:500;
+    color:var(--ink); line-height:.98; letter-spacing:-.005em;
+    margin:0; font-size:{{HERO_SIZE}}px; text-wrap:balance;
+    max-width:15ch;
+  }
+
+  /* description — clean sans, narrow measure, breathing room */
+  .desc{
+    font-family:inherit; color:var(--ink); font-weight:450;
+    font-size:26px; line-height:1.42; margin:26px 0 0; max-width:47%;
+  }
+
+  /* optional presenter chip: avatar + label */
+  .presenter{ display:flex; align-items:center; gap:16px; margin:34px 0 0; }
+  .presenter img{ width:74px; height:74px; border-radius:50%; object-fit:cover; border:2px solid var(--line); }
+  .presenter .who{ font-size:22px; line-height:1.25; color:var(--ink); }
+  .presenter .who b{ font-weight:700; }
+  .presenter .who .lead{ color:var(--ink-soft); font-style:italic; }
+
+  /* optional callout pill (e.g. rsvp) */
+  .callout{
+    display:inline-block; margin:30px 0 0; padding:14px 22px; border-radius:14px;
+    background:var(--pill); backdrop-filter:blur(3px);
+  }
+  .callout .lead{ font-family:"Playfair Display",Georgia,serif; font-style:italic; font-size:26px; color:var(--ink); }
+  .callout .val{ display:block; font-size:22px; color:var(--ink-soft); margin-top:2px; }
+
+  .spacer{ flex:1 1 auto; min-height:24px; }
+
+  /* footer row: details bottom-left, brand lockup bottom-right */
+  .footer{ display:flex; align-items:flex-end; justify-content:space-between; gap:30px; }
+
+  .details{ color:var(--ink); }
+  .sched{ font-size:34px; font-weight:700; margin:0 0 6px; line-height:1.1; }
+  .sched .sub{ display:block; font-size:24px; font-weight:400; color:var(--ink-soft); margin-top:4px; }
+  .venue{ font-size:23px; line-height:1.34; color:var(--ink-soft); margin:22px 0 0; }
+  .venue b{ color:var(--ink); font-weight:700; }
+
+  .brand{ font-size:30px; font-weight:800; color:var(--ink); white-space:nowrap; letter-spacing:.005em; }
+  .brand .slash{ font-weight:400; color:var(--ink-soft); margin:0 4px; }
+  .brand .sub{ font-weight:400; color:var(--ink-soft); }
+</style>
+
+<div class="flyer">
+  <div class="photo"></div>
+  <div class="scrim"></div>
+
+  <div class="content">
+    {{EYEBROW}}
+    <h1 class="hero">{{HERO}}</h1>
+    {{DESC}}
+    {{PRESENTER}}
+    {{CALLOUT}}
+
+    <div class="spacer"></div>
+
+    <div class="footer">
+      <div class="details">
+        {{DETAILS}}
+        {{VENUE}}
+      </div>
+      <div class="brand">{{BRAND_MAIN}}<span class="slash">/</span><span class="sub">{{BRAND_SUB}}</span></div>
+    </div>
+  </div>
+</div>
