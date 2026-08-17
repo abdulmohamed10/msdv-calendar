@@ -1,0 +1,20 @@
+{
+  "title": "Community Barbecue",
+  "photo": "park-autumn.jpg",
+  "photo_pos": "50% 42%",
+  "accent": "#e8b04b",
+  "eyebrow": "A COMMUNITY GATHERING",
+  "hero": "community<br>barbecue",
+  "hero_style": "normal",
+  "hero_size": 118,
+  "desc": "It's time for our annual community barbecue. Bring the family for a day of connection, food, and fun \u2014 water balloon fights, soccer, henna, and more.",
+  "schedule": {
+    "main": "Saturday, September 5",
+    "subs": [
+      "Program begins 3:00 PM"
+    ]
+  },
+  "venue": "Masons Mill Park \u2014 Pavilion 1|3500 Masons Mill Rd, Bryn Athyn, PA",
+  "brand_main": "ICCWG",
+  "brand_sub": "Community"
+}
